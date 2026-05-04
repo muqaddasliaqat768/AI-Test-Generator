@@ -11,15 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - run: pip install PyGithub requests
+          
+      - name: Install Dependencies
+        run: pip install PyGithub requests
+        
       - name: Run Script
         env:
-          # Use the PAT token secret here
-          GITHUB_TOKEN: ${{ secrets.EXTERNAL_REPO_TOKEN }}
+          # This name must match exactly what os.getenv looks for in Python
+          EXTERNAL_REPO_TOKEN: ${{ secrets.EXTERNAL_REPO_TOKEN }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           ISSUE_ID: ${{ github.event.inputs.ticket_no }}
         run: python .github/scripts/generate_by_id.py
