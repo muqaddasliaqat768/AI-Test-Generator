@@ -4,7 +4,7 @@ import sys
 from github import Github, Auth
 
 # 1. Configuration
-SOURCE_REPO_NAME = "schoolgram/schoolgram-web" 
+SOURCE_REPO_NAME = "muqaddasliaqat768/Javascript" 
 EXTERNAL_REPO_TOKEN = os.getenv('EXTERNAL_REPO_TOKEN')
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 ISSUE_ID_STR = os.getenv('ISSUE_ID')
