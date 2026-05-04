@@ -4,8 +4,8 @@ import sys
 from github import Github, Auth
 
 # 1. Configuration
-SOURCE_REPO_NAME = "schoolgram/schoolgram-web"  # Update this!
-GITHUB_TOKEN = os.getenv('EXTERNAL_REPO_TOKEN')
+SOURCE_REPO_NAME = "schoolgram/schoolgram-web" 
+EXTERNAL_REPO_TOKEN = os.getenv('EXTERNAL_REPO_TOKEN')
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 ISSUE_ID_STR = os.getenv('ISSUE_ID')
 
@@ -16,7 +16,6 @@ def get_ai_test_cases(title, body):
     url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
     
-    # Updated Prompt for Positive/Negative/Edge Cases
     prompt = f"""
     Act as a Senior QA Automation Engineer. Based on the GitHub Issue below, 
     generate a list of high-level Use Cases.
@@ -36,7 +35,7 @@ def get_ai_test_cases(title, body):
     payload = {
         "model": "llama-3.1-8b-instant",
         "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.1 # Keep it low for consistent formatting
+        "temperature": 0.1 
     }
     
     try:
@@ -49,14 +48,15 @@ def get_ai_test_cases(title, body):
 
 if __name__ == "__main__":
     try:
-        if not GITHUB_TOKEN or not ISSUE_ID_STR:
-            print("❌ Error: Missing GITHUB_TOKEN or ISSUE_ID.")
+        # Check if both required variables exist
+        if not EXTERNAL_REPO_TOKEN or not ISSUE_ID_STR:
+            print(f"❌ Error: Missing EXTERNAL_REPO_TOKEN or ISSUE_ID.")
+            print(f"Token present: {bool(EXTERNAL_REPO_TOKEN)}, ID present: {bool(ISSUE_ID_STR)}")
             sys.exit(1)
 
         print(f"Connecting to: {SOURCE_REPO_NAME}")
         
-        # New Auth Method (Stable)
-        auth = Auth.Token(GITHUB_TOKEN)
+        auth = Auth.Token(EXTERNAL_REPO_TOKEN)
         g = Github(auth=auth)
         
         repo = g.get_repo(SOURCE_REPO_NAME)
