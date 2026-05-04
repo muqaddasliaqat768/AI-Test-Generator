@@ -5,7 +5,7 @@ from github import Github, Auth
 
 # 1. Configuration
 SOURCE_REPO_NAME = "schoolgram/schoolgram-web"  # Update this!
-GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+GITHUB_TOKEN = os.getenv('EXTERNAL_REPO_TOKEN')
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 ISSUE_ID_STR = os.getenv('ISSUE_ID')
 
